@@ -21,7 +21,7 @@ IMG_PATH = os.getenv("INPUT_IMG_PATH")
 GHTOKEN = os.getenv("INPUT_GH_TOKEN")
 COMMIT_MSG = os.getenv("INPUT_COMMIT_MESSAGE")
 WIDTH = os.getenv("INPUT_WIDTH")
-HEIGHT = os.getenv("INPUT_HEIGHT")
+# HEIGHT = os.getenv("INPUT_HEIGHT")
 ALIGN = os.getenv("INPUT_ALIGN")
 IMG_ALT = os.getenv("INPUT_IMG_ALT")
 
@@ -54,7 +54,7 @@ def decode_readme(data: str) -> str:
     return str(decoded_bytes, 'utf-8')
 
 def generate_new_readme(readme: str, image_tag: str) -> str:
-    '''Generate a new Readme.md'''
+    '''Generate a new README.md'''
     update_readme_with = f"{START_COMMENT}\n{image_tag}\n{END_COMMENT}"
     return re.sub(IMAGE_REPL, update_readme_with, readme)
 
@@ -70,8 +70,7 @@ if __name__ == "__main__":
     readme_content_decoded = decode_readme(readme_repo.get_readme().content)
     new_readme = generate_new_readme(readme=readme_content_decoded, image_tag=image_tag)
     if readme_content_decoded != new_readme:
-        readme_repo.update_file(path=readme_obj.path, message=COMMIT_MSG,
-                             content=new_readme, sha=readme_obj.sha)
+        readme_repo.update_file(path=readme_obj.path, message=COMMIT_MSG, content=new_readme, sha=readme_obj.sha)
         print("Success")
     else:
         print("No change")
