@@ -7,7 +7,7 @@ import os
 import re
 import sys
 import base64
-import requests
+# import requests
 import random
 from github import Github, GithubException
 
@@ -45,7 +45,7 @@ def get_image_tag(repo):
     if not is_image:
         sys.exit(1)
     img_src = image.download_url
-    img_tag = f"<img src={img_src} width=100% />"
+    img_tag = f"[<img src={img_src} width=100% />]()"
     return img_tag
 
 def decode_readme(data: str) -> str:
