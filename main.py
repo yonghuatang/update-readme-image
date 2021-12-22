@@ -45,7 +45,7 @@ def get_image_tag(repo):
     if not is_image:
         sys.exit(1)
     img_src = image.download_url
-    img_tag = f"<img src={img_src} height={HEIGHT} width={WIDTH} align={ALIGN} alt={IMG_ALT} />"
+    img_tag = f"<img src={img_src} width=100% />"
     return img_tag
 
 def decode_readme(data: str) -> str:
@@ -67,9 +67,7 @@ if __name__ == "__main__":
         print("Authentication Error. Try saving a GitHub Token in your Repo Secrets or Use the GitHub Actions Token, which is automatically used by the action.")
         sys.exit(1)
     image_tag = get_image_tag(img_repo)
-    readme_obj = readme_repo.get_readme()
-    readme_content = readme_obj.content
-    readme_content_decoded = decode_readme(readme_content)
+    readme_content_decoded = decode_readme(readme_repo.get_readme().content)
     new_readme = generate_new_readme(readme=readme_content_decoded, image_tag=image_tag)
     if readme_content_decoded != new_readme:
         readme_repo.update_file(path=readme_obj.path, message=COMMIT_MSG,
