@@ -22,11 +22,16 @@ inputs:
     description: "Your path to images in IMG_REPO"
     default: ".github/images"
     required: false
-
+    
   WIDTH:
     description: "Give width of image"
     default: "100%"
     required: false
+    
+#   HEIGHT:
+#     description: "Give height of image"
+#     default: "180px"
+#     required: false
 
   ALIGN:
     description: "Alignment of image"
