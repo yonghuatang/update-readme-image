@@ -1,7 +1,4 @@
-#main.py
-"""
-GitHub Action Code to update README file with provided images randomly.
-"""
+# GitHub Action Code to update README.md with provided images randomly.
 
 import os
 import re
@@ -11,8 +8,8 @@ import base64
 import random
 from github import Github, GithubException
 
-START_COMMENT = '<!--START_SECTION:update_image-->'
-END_COMMENT = '<!--END_SECTION:update_image-->'
+START_COMMENT = "<!--START_SECTION:update_image-->"
+END_COMMENT = "<!--END_SECTION:update_image-->"
 IMAGE_REPL = f"{START_COMMENT}[\\s\\S]+{END_COMMENT}"
 
 REPO = os.getenv("INPUT_README_REPOSITORY")
@@ -27,14 +24,14 @@ IMG_ALT = os.getenv("INPUT_IMG_ALT")
 
 VALID_IMAGES_EXT = ['png', 'jpg', 'jpeg', 'gif', 'svg']
 
-
 def verify_image_ext(image):
     ''' Validate image obtained '''
     global VALID_IMAGES_EXT
     if image.path.split('/')[-1].split('.')[-1].lower() not in VALID_IMAGES_EXT:
-        print(f"Please make sure image is one of following type {VALID_IMAGES_EXT}, error caused by image - {image.path}")
+        print(f"Please make sure image is one of following type {VALID_IMAGES_EXT}, error caused by image – {image.path}")
         return False
     return True
+
 
 def get_image_tag(repo):
     ''' Get new image tag <img> to place in README '''
@@ -48,15 +45,18 @@ def get_image_tag(repo):
     img_tag = f"[<img src={img_src} width=100% />]()"
     return img_tag
 
+
 def decode_readme(data: str) -> str:
     '''Decode the contents of old readme'''
     decoded_bytes = base64.b64decode(data)
     return str(decoded_bytes, 'utf-8')
 
+
 def generate_new_readme(readme: str, image_tag: str) -> str:
     '''Generate a new README.md'''
     update_readme_with = f"{START_COMMENT}\n{image_tag}\n{END_COMMENT}"
     return re.sub(IMAGE_REPL, update_readme_with, readme)
+
 
 if __name__ == "__main__":
     g = Github(GHTOKEN)
